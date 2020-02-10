@@ -1,3 +1,15 @@
+$(document).ready(function(){
+
+$(document).on("click",".oldcity",function(event){
+  $("#results").empty();
+  var cityname=$(this).text()
+  $("#results").append('<div>' +cityname +"</div>")
+  var cityInfo =localStorage.getItem(cityname);
+          $("#results").append(cityInfo);
+
+})
+
+
 $("#but1").on("click", function(event) {
     
   event.preventDefault();
@@ -27,17 +39,25 @@ $("#but1").on("click", function(event) {
 
         var temp1 = (response.main.temp -273.15)* 1.80 + 32;
         temp.text("Temperature (F): " + temp1);
-
-        $ ("#results").append(res,temp,humid,Wspeed,UV);
+        var Detail= [res,temp,humid,Wspeed,UV];
+        var resResults= JSON.stringify({res,temp,humid,Wspeed,UV});
+        $ ("#results").append(Detail);
 
           console.log(results);
          
-          $("listNames").append(city);
-       
-          // var list= $("<li>");
-        //list.appendChild(city);
-         // $("#listNames").prepend(list);
+
+           var list= $("<li>").addClass("oldcity").text(city);
+          $("#listNames").append(list);
+
+         var setInfo=city
+        localStorage.setItem(setInfo,resResults);
 
 
+        $(listNames).on(click,function(){
+          
+
+          
+        });
         
 })});
+})
