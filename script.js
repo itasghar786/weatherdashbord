@@ -1,63 +1,49 @@
-$(document).ready(function(){
-
-$(document).on("click",".oldcity",function(event){
-  $("#results").empty();
-  var cityname=$(this).text()
-  $("#results").append('<div>' +cityname +"</div>")
-  var cityInfo =localStorage.getItem(cityname);
-          $("#results").append(cityInfo);
-
-})
+var cities = [];
 
 
-$("#but1").on("click", function(event) {
-    
-  event.preventDefault();
-    var city = $("#city").val();
+$(document).ready(function () {
 
-   
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+ city + "&appid=fbc075b80da88bbbf4c9e85f7c031ee9";
-      
+  $(document).on("click", ".oldcity", function (event) {
+    var cityname = $(this).text();
 
-   
+    getWeather(cityname);
+  })
 
-
+  function getWeather(city) {
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=fbc075b80da88bbbf4c9e85f7c031ee9";
 
     $.ajax({
       url: queryURL,
       method: "GET"
 
-    }) .then(function(response) {
-          console.log(response);
+    }).then(function (response) {
+      console.log(response);
 
-        $("#results").empty();
-        var res = $("<h3>").html( response.name );
-        var temp =$("<div>").text( "Temperature:" + response.main.temp);
-        var humid = $("<div>").text( "Humidity:" + response.main.humidity);
-        var Wspeed=$("<div>").text("Wind Spped:"+ response.wind.speed);
-         var UV= $("<div>").text("UV Index:" + response.main.uvIndex);
+      $("#results").empty();
 
-        var temp1 = (response.main.temp -273.15)* 1.80 + 32;
-        temp.text("Temperature (F): " + temp1);
-        var Detail= [res,temp,humid,Wspeed,UV];
-        var resResults= JSON.stringify({res,temp,humid,Wspeed,UV});
-        $ ("#results").append(Detail);
+      var res = $("<h3>").html(response.name);
+      var temp = $("<div>").text("Temperature:" + response.main.temp);
+      var humid = $("<div>").text("Humidity:" + response.main.humidity);
+      var Wspeed = $("<div>").text("Wind Spped:" + response.wind.speed);
+      var UV = $("<div>").text("UV Index:" + response.main.uvIndex);
+      var temp1 = (response.main.temp - 273.15) * 1.80 + 32;
+      temp.text("Temperature (F): " + temp1);
+      var Detail = [res, temp, humid, Wspeed, UV];
+      var resResults = JSON.stringify({ res, temp, humid, Wspeed, UV });
 
-          console.log(results);
-         
+      $("#results").append(Detail);
+    })
+  }
 
-           var list= $("<li>").addClass("oldcity").text(city);
-          $("#listNames").append(list);
+  $("#but1").on("click", function (event) {
+    event.preventDefault();
+    var city = $("#city").val();
 
-         var setInfo=city
-        localStorage.setItem(setInfo,resResults);
+    getWeather(city);
 
+    
 
-        $(listNames).on(click,function(){
-          
-
-          
-        });
-        
-})});
+    var list = $("<li>").addClass("oldcity").text(city);
+    $("#listNames").append(list);
+  });
 })
