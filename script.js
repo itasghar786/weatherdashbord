@@ -42,8 +42,22 @@ $(document).ready(function () {
     getWeather(city);
 
     
-
-    var list = $("<li>").addClass("oldcity").text(city);
+    
+      var list = $("<li>").addClass("oldcity").text(city).addClass(" btn btn-secondary btn-lg btn-block");
+    
     $("#listNames").append(list);
+    setStorage(city);
+    lastCities();
+
+    function setStorage(city) {
+      var setCity=[];
+      setCity.push(city);
+      localStorage.setItem("setCity", JSON.stringify(setCity));
+      lastCities();
+    }
+    function lastCities() {
+      var searchedCities = JSON.parse(localStorage.getItem("setCity"));
+      city.append(searchedCities);
+    }
   });
 })

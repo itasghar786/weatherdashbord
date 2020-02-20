@@ -27,3 +27,14 @@ button{
     text-align: center;
 }
 
+.bad{
+    background-color: red;
+    border-radius: 3px;
+}
+.ok{
+    background-color: chartreuse;
+    border-radius: 3px;
+}
+.good{
+    background-color: darkgreen;
+}
